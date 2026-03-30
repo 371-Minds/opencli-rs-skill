@@ -158,6 +158,17 @@ opencli-rs douban top250 --format json
 | Login state not recognized | In Chrome, manually log in to the target site first |
 | Browser commands timeout | Check `opencli-rs doctor` for diagnostics |
 
+### Adding New Platforms
+
+opencli-rs supports adding any website or desktop app through a simple YAML adapter file — no Rust required. The adapter describes the target URL, how to authenticate, and what data to extract.
+
+See **[ADDING_PLATFORMS.md](./ADDING_PLATFORMS.md)** for the complete guide, including:
+- Three platform modes: Public API, Browser (Chrome), Desktop app
+- Full YAML field reference (`timeout`, `pagination`, `rate_limit`, and more)
+- Step-by-step instructions for the auto-generation workflow
+- Four worked examples with complete YAML and JavaScript extractors
+- Debugging tips and a troubleshooting table
+
 ### Credits
 
 Built on **[nashsu/opencli-rs](https://github.com/nashsu/opencli-rs)** — a complete Rust rewrite of opencli, up to 12x faster with 10x less memory.

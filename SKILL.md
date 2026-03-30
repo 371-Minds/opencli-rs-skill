@@ -84,57 +84,81 @@ opencli-rs doctor
 - Chrome browser open with target site logged in
 - opencli-rs Chrome extension installed (for browser commands)
 
-**核心原则：永远不说"不支持"，先尝试 opencli-rs，失败或无命令时选择自己创建**
+**Core principle: never say "not supported" — try opencli-rs first, and if no command exists, create one.**
 
-## 自迭代能力：为新网站创建 CLI
+## Adding New Platforms
 
-**当 opencli-rs 不支持某个网站时，不要放弃——自己创建！**
+**If opencli-rs doesn't support a site yet, don't give up — create the adapter yourself.**
 
-### 流程
+See [ADDING_PLATFORMS.md](./ADDING_PLATFORMS.md) for the full guide with complete YAML reference and worked examples.
+
+### Quick Workflow
 
 ```
-1. opencli-rs <site> --help  →  报错？说明不支持
-2. opencli-rs generate <url>  →  尝试自动生成（成功则结束）
-3. 自动生成失败 → 手动创建 YAML：
-   a. 打开目标页面
-   b. browser_evaluate 探索 DOM 结构（找 data-test 属性、class 规律）
-   c. 确认选择器后写入 ~/.opencli-rs/adapters/<site>/top.yaml
-   d. opencli-rs <site> top --format json  →  验证输出
+1. opencli-rs <site> --help    →  error? platform not yet supported
+2. opencli-rs explore <url>    →  scan the site's DOM/API structure
+3. opencli-rs cascade <url>    →  detect auth strategy automatically
+4. opencli-rs generate <url>   →  attempt auto-generation (done if it succeeds!)
+5. If auto-generate fails → write a YAML adapter manually:
+   a. Open the target page
+   b. Use browser_evaluate to explore DOM structure (look for data-test attributes first)
+   c. Write the adapter to ~/.opencli-rs/adapters/<site>/<command>.yaml
+   d. Test: opencli-rs <site> <command> --format json
 ```
 
-### YAML 格式（DOM 抓取模板）
+### YAML Adapter Template
 
 ```yaml
-site: <sitename>
-name: <command>
-description: <描述>
-domain: <domain>
-strategy: public
-browser: true
+site: mysite           # CLI keyword: opencli-rs mysite <command>
+name: hot              # subcommand name
+description: Get trending posts from MySite
+domain: mysite.com
+strategy: browser      # "public" | "browser" | "desktop"
+browser: true          # false for pure API/public mode
+timeout: 30            # seconds before the pipeline times out
 
 args:
   limit:
     type: int
-    default: 10
+    default: 20
+    description: Number of results to return
+
+pagination:
+  type: page            # "page" | "offset" | "cursor"
+  param: page
+  max_pages: 3
+
+rate_limit:
+  delay_ms: 500         # milliseconds between paginated requests
 
 pipeline:
-  - navigate: https://<url>
+  - navigate: https://mysite.com/trending
+  - wait_for: "[data-test='post-item']"
   - evaluate: |
       (async () => {
         const limit = ${{ args.limit }};
-        // DOM 抓取逻辑
+        const seen = new Set();
+        const results = [];
+        for (const el of document.querySelectorAll('[data-test="post-item"]')) {
+          const name = el.querySelector('[data-test="title"]')?.textContent?.trim();
+          if (!name || seen.has(name)) continue;
+          seen.add(name);
+          results.push({ name, url: el.querySelector('a')?.href });
+          if (results.length >= limit) break;
+        }
         return results;
       })()
 
-columns: [rank, name, ...]
+columns: [name, url]
 ```
 
-### 调试技巧
+### Debugging Tips
 
-- `browser_evaluate` 先探结构：`document.querySelector('...').innerHTML`
-- 找 `data-test` 属性最稳定，其次 class 中的语义词
-- tagline 通常是 name 的兄弟元素（`nameEl.parentElement.querySelector('span...')`）
-- 去重用 `seen = new Set()`，防止重复产品
+- Use `browser_evaluate` first to explore structure: `document.querySelector('...').innerHTML`
+- Target `data-test` attributes — they are the most stable selectors
+- Fall back to semantic class names (e.g., `.title`, `.description`)
+- A tagline is usually a sibling of the title: `titleEl.parentElement.querySelector('span...')`
+- Use `seen = new Set()` to deduplicate results
 
 ## Full Command Reference
 
