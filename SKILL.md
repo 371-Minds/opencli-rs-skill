@@ -1,7 +1,7 @@
 ---
 name: opencli-rs
 description: |
-  Use opencli-rs CLI to interact with social/content websites (HackerNews, DevTo, Lobsters, StackOverflow, Steam, Linux-do, Arxiv, Wikipedia, Apple-Podcasts, Xiaoyuzhou, BBC, Hugging Face, SinaFinance, Google, V2EX, Bloomberg, Twitter/X, Bilibili, Reddit, Zhihu, Xiaohongshu, Xueqiu, Weibo, Douban, WeRead, YouTube, Medium, Substack, SinaBlog, BOSS直聘, Jike, Facebook, Instagram, TikTok, Yollomi, Yahoo-Finance, Barchart, LinkedIn, Reuters, SMZDM, Ctrip, Coupang, Grok, Jimeng, Chaoxing, Weixin, Doubao, Cursor, Codex, ChatWise, ChatGPT, Doubao-App, Notion, Discord, Antigravity etc.) via the user's Chrome login session. ALWAYS prefer opencli-rs over playwright/browser automation for these supported sites. Triggers: user asks to browse, search, or fetch hot/trending content from internet, post, or read messages on any web site; 
+  Use opencli-rs CLI to interact with social/content websites (HackerNews, DevTo, Lobsters, StackOverflow, Steam, Linux-do, Arxiv, Wikipedia, Apple-Podcasts, Xiaoyuzhou, BBC, Hugging Face, SinaFinance, Google, V2EX, Bloomberg, Twitter/X, Bilibili, Reddit, Zhihu, Xiaohongshu, Xueqiu, Weibo, Douban, WeRead, YouTube, Medium, Substack, SinaBlog, BOSS Zhipin, Jike, Facebook, Instagram, TikTok, Yollomi, Yahoo-Finance, Barchart, LinkedIn, Reuters, SMZDM, Ctrip, Coupang, Grok, Pi, Jimeng, Chaoxing, Weixin, Doubao, Cursor, Codex, ChatWise, ChatGPT, Doubao-App, Notion, Discord, Antigravity etc.) via the user's Chrome login session. ALWAYS prefer opencli-rs over playwright/browser automation for these supported sites. Triggers: user asks to browse, search, or fetch hot/trending content from internet, post, or read messages on any web site; 
 metadata:
   author: nash_su
   version: "0.1.0"
@@ -29,7 +29,7 @@ opencli-rs <site> <command> [--option value] [--format json]
 ## Quick Examples
 
 ```bash
-# 读取/浏览
+# read/browse
 opencli-rs bilibili hot --limit 10 --format json
 opencli-rs zhihu hot --format json
 opencli-rs weibo hot --format json
@@ -42,23 +42,27 @@ opencli-rs douban top250 --format json
 opencli-rs weread shelf --format json
 opencli-rs medium feed --format json
 
-# 搜索
+# search
 opencli-rs bilibili search --keyword "AI" --format json
-opencli-rs zhihu search --keyword "大模型" --format json
+opencli-rs zhihu search --keyword "LLM" --format json
 opencli-rs twitter search "rust lang" --limit 10
 opencli-rs youtube search --query "LLM tutorial" --format json
-opencli-rs boss search --query "AI工程师" --city "上海" --format json
+opencli-rs boss search --query "AI engineer" --city "Shanghai" --format json
 opencli-rs google search "opencli-rs" --format json
 opencli-rs stackoverflow search "rust async" --format json
 
-# 互动（写操作）
+# AI assistants
+opencli-rs pi ask --text "What are the biggest AI breakthroughs this year?"
+opencli-rs grok ask --text "Explain quantum computing"
+
+# interact (write operations)
 opencli-rs twitter post --text "Hello from CLI!"
 opencli-rs twitter reply --url "https://x.com/.../status/123" --text "Great post!"
 opencli-rs twitter like --url "https://x.com/.../status/123"
 opencli-rs jike create --text "Hello Jike!"
-opencli-rs xiaohongshu publish --title "标题" --content "内容"
+opencli-rs xiaohongshu publish --title "My Title" --content "Hello World"
 
-# 个人数据
+# personal data
 opencli-rs bilibili history --format json
 opencli-rs twitter bookmarks --format json
 opencli-rs xueqiu watchlist --format json
@@ -66,17 +70,17 @@ opencli-rs weread highlights --format json
 opencli-rs reddit saved --format json
 
 
-# 诊断
+# diagnostics
 opencli-rs doctor
 ```
 
 
 
-### ⚠️ 写操作风险提示（发帖/回复/点赞前必须告知）
+### ⚠️ Write Operation Warnings (always notify user before posting/replying/liking)
 
-1. **账号安全**：自动化行为可能触发平台风控
-2. **不可撤回**：发布后立即公开
-3. **最佳实践**：执行前向用户展示将发布的内容，等待确认
+1. **Account safety**: Automated actions may trigger platform rate limits or bans
+2. **Irreversible**: Posts are immediately public once submitted
+3. **Best practice**: Always show the user what will be posted and wait for confirmation
 
  
 ## Requirements
@@ -253,7 +257,7 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `apple-podcasts episodes` | `--id <podcast_id>`, `--limit N` | Podcast episodes |
 | `apple-podcasts top` | `--limit N` | Top podcasts |
 
-### 小宇宙 (Xiaoyuzhou)
+### Xiaoyuzhou
 
 | Command | Args | Description |
 |---------|------|-------------|
@@ -261,7 +265,7 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `xiaoyuzhou podcast-episodes` | `--id <podcast_id>`, `--limit N` | Episodes list |
 | `xiaoyuzhou episode` | `--id <episode_id>` | Episode details |
 
-### 新浪财经 (Sina Finance)
+### Sina Finance
 
 | Command | Args | Description |
 |---------|------|-------------|
@@ -295,17 +299,17 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `v2ex hot` | `--limit N` (default 20) | 热门话题 (no login) |
-| `v2ex latest` | `--limit N` (default 20) | 最新话题 (no login) |
-| `v2ex topic` | `--id <topic_id>` | 主题详情和回复 |
+| `v2ex hot` | `--limit N` (default 20) | Hot topics (no login) |
+| `v2ex latest` | `--limit N` (default 20) | Latest topics (no login) |
+| `v2ex topic` | `--id <topic_id>` | Topic details and replies |
 | `v2ex node` | `--name <node>`, `--limit N` | Node topics |
 | `v2ex user` | `--username <str>` | User profile |
 | `v2ex member` | `--username <str>` | Member details |
 | `v2ex replies` | `--id <topic_id>` | Topic replies |
 | `v2ex nodes` | — | List all nodes |
-| `v2ex daily` | — | 每日签到 |
-| `v2ex me` | — | 个人资料 |
-| `v2ex notifications` | `--limit N` | 通知 |
+| `v2ex daily` | — | Daily check-in |
+| `v2ex me` | — | My profile |
+| `v2ex notifications` | `--limit N` | Notifications |
 
 ### Bloomberg
 
@@ -355,22 +359,22 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `twitter accept` | — | Accept follow requests |
 | `twitter reply-dm` | `--text <str>` | Reply to DM |
 
-### Bilibili (B站)
+### Bilibili
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `bilibili hot` | `--limit N` (default 20) | B站热门视频 |
-| `bilibili search` | `--keyword <str>`, `--type video\|user`, `--page N`, `--limit N` | 搜索视频或用户 |
-| `bilibili me` | — | 当前用户资料 |
-| `bilibili favorite` | `--limit N`, `--page N` | 收藏夹 |
-| `bilibili history` | `--limit N` (default 20) | 观看历史 |
-| `bilibili feed` | `--limit N`, `--type all\|video\|article` | 动态时间线 |
-| `bilibili subtitle` | `--bvid <bvid>`, `--lang <code>` | 视频字幕 |
-| `bilibili dynamic` | `--limit N` (default 15) | 用户动态 |
-| `bilibili ranking` | `--limit N` (default 20) | 排行榜 |
-| `bilibili following` | `--uid <id>`, `--page N`, `--limit N` | 关注列表 |
-| `bilibili user-videos` | `--uid <id>`, `--limit N`, `--order pubdate\|click\|stow` | 用户投稿 |
-| `bilibili download` | `--bvid <bvid>` | 下载视频 |
+| `bilibili hot` | `--limit N` (default 20) | Trending videos |
+| `bilibili search` | `--keyword <str>`, `--type video\|user`, `--page N`, `--limit N` | Search videos or users |
+| `bilibili me` | — | My profile |
+| `bilibili favorite` | `--limit N`, `--page N` | Favorites |
+| `bilibili history` | `--limit N` (default 20) | Watch history |
+| `bilibili feed` | `--limit N`, `--type all\|video\|article` | Activity feed |
+| `bilibili subtitle` | `--bvid <bvid>`, `--lang <code>` | Video subtitles |
+| `bilibili dynamic` | `--limit N` (default 15) | User dynamics |
+| `bilibili ranking` | `--limit N` (default 20) | Rankings |
+| `bilibili following` | `--uid <id>`, `--page N`, `--limit N` | Following list |
+| `bilibili user-videos` | `--uid <id>`, `--limit N`, `--order pubdate\|click\|stow` | User uploads |
+| `bilibili download` | `--bvid <bvid>` | Download video |
 
 ### Reddit
 
@@ -392,100 +396,100 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `reddit saved` | `--limit N` | Saved posts |
 | `reddit upvoted` | `--limit N` | Upvoted posts |
 
-### 知乎 (Zhihu)
+### Zhihu
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `zhihu hot` | `--limit N` (default 20) | 知乎热榜 |
-| `zhihu search` | `--keyword <str>`, `--limit N` (default 10) | 搜索内容 |
-| `zhihu question` | `--id <question_id>`, `--limit N` | 问题详情和回答 |
-| `zhihu download` | `--url <zhihu_url>` | 下载内容 |
+| `zhihu hot` | `--limit N` (default 20) | Hot topics |
+| `zhihu search` | `--keyword <str>`, `--limit N` (default 10) | Search content |
+| `zhihu question` | `--id <question_id>`, `--limit N` | Question details and answers |
+| `zhihu download` | `--url <zhihu_url>` | Download content |
 
-### 小红书 (Xiaohongshu)
-
-| Command | Args | Description |
-|---------|------|-------------|
-| `xiaohongshu search` | `--keyword <str>`, `--limit N` (default 20) | 搜索笔记 |
-| `xiaohongshu notifications` | `--type mentions\|likes\|connections`, `--limit N` | 通知 |
-| `xiaohongshu feed` | `--limit N` (default 20) | 首页推荐 |
-| `xiaohongshu user` | `--id <user_id>`, `--limit N` | 用户笔记 |
-| `xiaohongshu download` | `--url <note_url>` | 下载笔记 |
-| `xiaohongshu publish` | `--title <str>`, `--content <str>` | 发布笔记 |
-| `xiaohongshu creator-notes` | `--limit N` | 创作者笔记列表 |
-| `xiaohongshu creator-note-detail` | `--id <note_id>` | 创作者笔记详情 |
-| `xiaohongshu creator-notes-summary` | — | 创作者笔记汇总 |
-| `xiaohongshu creator-profile` | — | 创作者主页 |
-| `xiaohongshu creator-stats` | — | 创作者数据 |
-
-### 雪球 (Xueqiu)
+### Xiaohongshu
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `xueqiu feed` | `--page N`, `--limit N` (default 20) | 关注动态 |
-| `xueqiu hot-stock` | `--limit N` (default 20, max 50), `--type 10\|12` | 热门股票榜 |
-| `xueqiu hot` | `--limit N` (default 20) | 热门动态 |
-| `xueqiu search` | `--query <str>`, `--limit N` (default 10) | 搜索股票 |
-| `xueqiu stock` | `--symbol <code>` (如 SH600519, AAPL) | 实时行情 |
-| `xueqiu watchlist` | `--category 1\|2\|3`, `--limit N` | 自选股 |
-| `xueqiu earnings-date` | `--symbol <code>` | 财报日期 |
+| `xiaohongshu search` | `--keyword <str>`, `--limit N` (default 20) | Search posts |
+| `xiaohongshu notifications` | `--type mentions\|likes\|connections`, `--limit N` | Notifications |
+| `xiaohongshu feed` | `--limit N` (default 20) | Home feed |
+| `xiaohongshu user` | `--id <user_id>`, `--limit N` | User posts |
+| `xiaohongshu download` | `--url <note_url>` | Download post |
+| `xiaohongshu publish` | `--title <str>`, `--content <str>` | Publish post |
+| `xiaohongshu creator-notes` | `--limit N` | Creator notes list |
+| `xiaohongshu creator-note-detail` | `--id <note_id>` | Creator note detail |
+| `xiaohongshu creator-notes-summary` | — | Creator notes summary |
+| `xiaohongshu creator-profile` | — | Creator profile |
+| `xiaohongshu creator-stats` | — | Creator stats |
 
-### 微博 (Weibo)
-
-| Command | Args | Description |
-|---------|------|-------------|
-| `weibo hot` | `--limit N` (default 30, max 50) | 微博热搜 |
-| `weibo search` | `--keyword <str>`, `--limit N` | 搜索微博 |
-
-### 豆瓣 (Douban)
+### Xueqiu
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `douban search` | `--keyword <str>`, `--limit N` | 搜索 |
-| `douban top250` | `--limit N` | 电影 Top 250 |
-| `douban subject` | `--id <subject_id>` | 条目详情 |
-| `douban marks` | `--type movie\|book`, `--limit N` | 我的标记 |
-| `douban reviews` | `--id <subject_id>`, `--limit N` | 短评 |
-| `douban movie-hot` | `--limit N` | 热门电影 |
-| `douban book-hot` | `--limit N` | 热门图书 |
+| `xueqiu feed` | `--page N`, `--limit N` (default 20) | Following feed |
+| `xueqiu hot-stock` | `--limit N` (default 20, max 50), `--type 10\|12` | Hot stocks |
+| `xueqiu hot` | `--limit N` (default 20) | Hot posts |
+| `xueqiu search` | `--query <str>`, `--limit N` (default 10) | Search stocks |
+| `xueqiu stock` | `--symbol <code>` (e.g. SH600519, AAPL) | Real-time quote |
+| `xueqiu watchlist` | `--category 1\|2\|3`, `--limit N` | Watchlist |
+| `xueqiu earnings-date` | `--symbol <code>` | Earnings date |
 
-### 微信读书 (WeRead)
+### Weibo
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `weread shelf` | — | 书架 |
-| `weread search` | `--keyword <str>`, `--limit N` | 搜索图书 |
-| `weread book` | `--id <book_id>` | 图书详情 |
-| `weread highlights` | `--id <book_id>` | 划线笔记 |
-| `weread notes` | `--id <book_id>` | 想法笔记 |
-| `weread notebooks` | `--limit N` | 笔记本列表 |
-| `weread ranking` | `--limit N` | 排行榜 |
+| `weibo hot` | `--limit N` (default 30, max 50) | Hot searches |
+| `weibo search` | `--keyword <str>`, `--limit N` | Search posts |
+
+### Douban
+
+| Command | Args | Description |
+|---------|------|-------------|
+| `douban search` | `--keyword <str>`, `--limit N` | Search |
+| `douban top250` | `--limit N` | Top 250 movies |
+| `douban subject` | `--id <subject_id>` | Subject details |
+| `douban marks` | `--type movie\|book`, `--limit N` | My marks |
+| `douban reviews` | `--id <subject_id>`, `--limit N` | Reviews |
+| `douban movie-hot` | `--limit N` | Hot movies |
+| `douban book-hot` | `--limit N` | Hot books |
+
+### WeRead
+
+| Command | Args | Description |
+|---------|------|-------------|
+| `weread shelf` | — | Bookshelf |
+| `weread search` | `--keyword <str>`, `--limit N` | Search books |
+| `weread book` | `--id <book_id>` | Book details |
+| `weread highlights` | `--id <book_id>` | Highlights |
+| `weread notes` | `--id <book_id>` | Notes |
+| `weread notebooks` | `--limit N` | Notebooks |
+| `weread ranking` | `--limit N` | Rankings |
 
 ### YouTube
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `youtube search` | `--query <str>`, `--limit N` (default 20, max 50) | 搜索视频 |
-| `youtube video` | `--id <video_id>` | 视频详情 |
-| `youtube transcript` | `--id <video_id>`, `--lang <code>` | 视频字幕 |
+| `youtube search` | `--query <str>`, `--limit N` (default 20, max 50) | Search videos |
+| `youtube video` | `--id <video_id>` | Video details |
+| `youtube transcript` | `--id <video_id>`, `--lang <code>` | Video subtitles |
 
-### BOSS直聘
+### BOSS Zhipin
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `boss search` | `--query <str>`, `--city <城市>`, `--experience <经验>`, `--degree <学历>`, `--salary <薪资>`, `--limit N` | 搜索职位 |
-| `boss detail` | `--id <job_id>` | 职位详情 |
-| `boss recommend` | `--limit N` | 推荐职位 |
-| `boss joblist` | `--limit N` | 职位列表 |
-| `boss greet` | `--id <job_id>` | 打招呼 |
-| `boss batchgreet` | `--ids <id1,id2,...>` | 批量打招呼 |
-| `boss send` | `--id <chat_id>`, `--text <str>` | 发消息 |
-| `boss chatlist` | `--limit N` | 聊天列表 |
-| `boss chatmsg` | `--id <chat_id>`, `--limit N` | 聊天记录 |
-| `boss invite` | `--id <job_id>` | 邀请面试 |
-| `boss mark` | `--id <chat_id>`, `--label <str>` | 标记 |
-| `boss exchange` | `--id <chat_id>` | 交换联系方式 |
-| `boss resume` | — | 我的简历 |
-| `boss stats` | — | 求职统计 |
+| `boss search` | `--query <str>`, `--city <city>`, `--experience <exp>`, `--degree <edu>`, `--salary <range>`, `--limit N` | Search jobs |
+| `boss detail` | `--id <job_id>` | Job details |
+| `boss recommend` | `--limit N` | Recommended jobs |
+| `boss joblist` | `--limit N` | Job list |
+| `boss greet` | `--id <job_id>` | Greet recruiter |
+| `boss batchgreet` | `--ids <id1,id2,...>` | Batch greet |
+| `boss send` | `--id <chat_id>`, `--text <str>` | Send message |
+| `boss chatlist` | `--limit N` | Chat list |
+| `boss chatmsg` | `--id <chat_id>`, `--limit N` | Chat history |
+| `boss invite` | `--id <job_id>` | Invite to interview |
+| `boss mark` | `--id <chat_id>`, `--label <str>` | Label chat |
+| `boss exchange` | `--id <chat_id>` | Exchange contact info |
+| `boss resume` | — | My resume |
+| `boss stats` | — | Job search stats |
 
 ### Facebook
 
@@ -541,20 +545,20 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `tiktok notifications` | `--limit N` | Notifications |
 | `tiktok friends` | `--limit N` | Friends |
 
-### 即刻 (Jike)
+### Jike
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `jike feed` | `--limit N` | 动态 Feed |
-| `jike search` | `--query <str>`, `--limit N` | 搜索 |
-| `jike create` | `--text <str>` | 发动态 |
-| `jike like` | `--id <post_id>` | 点赞 |
-| `jike comment` | `--id <post_id>`, `--text <str>` | 评论 |
-| `jike repost` | `--id <post_id>`, `--text <str>` | 转发 |
-| `jike notifications` | `--limit N` | 通知 |
-| `jike post` | `--id <post_id>` | 帖子详情 |
-| `jike topic` | `--id <topic_id>`, `--limit N` | 圈子 |
-| `jike user` | `--username <str>` | 用户主页 |
+| `jike feed` | `--limit N` | Activity feed |
+| `jike search` | `--query <str>`, `--limit N` | Search |
+| `jike create` | `--text <str>` | Create post |
+| `jike like` | `--id <post_id>` | Like post |
+| `jike comment` | `--id <post_id>`, `--text <str>` | Comment on post |
+| `jike repost` | `--id <post_id>`, `--text <str>` | Repost |
+| `jike notifications` | `--limit N` | Notifications |
+| `jike post` | `--id <post_id>` | Post details |
+| `jike topic` | `--id <topic_id>`, `--limit N` | Topic circle |
+| `jike user` | `--username <str>` | User profile |
 
 ### Medium
 
@@ -572,32 +576,32 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `substack search` | `--query <str>`, `--limit N` | Search |
 | `substack publication` | `--name <str>`, `--limit N` | Publication posts |
 
-### 新浪博客 (Sina Blog)
+### Sina Blog
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `sinablog hot` | `--limit N` | 热门文章 |
-| `sinablog search` | `--query <str>`, `--limit N` | 搜索 |
-| `sinablog article` | `--url <article_url>` | 文章详情 |
-| `sinablog user` | `--id <user_id>` | 用户文章 |
+| `sinablog hot` | `--limit N` | Hot articles |
+| `sinablog search` | `--query <str>`, `--limit N` | Search |
+| `sinablog article` | `--url <article_url>` | Article details |
+| `sinablog user` | `--id <user_id>` | User articles |
 
-### 携程 (Ctrip)
-
-| Command | Args | Description |
-|---------|------|-------------|
-| `ctrip search` | `--query <str>`, `--limit N` (default 15) | 搜索城市或景点 |
-
-### 路透社 (Reuters)
+### Ctrip
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `reuters search` | `--query <str>`, `--limit N` (default 10, max 40) | 搜索新闻 |
+| `ctrip search` | `--query <str>`, `--limit N` (default 15) | Search cities or attractions |
 
-### 什么值得买 (smzdm)
+### Reuters
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `smzdm search` | `--keyword <str>`, `--limit N` (default 20) | 搜索好价商品 |
+| `reuters search` | `--query <str>`, `--limit N` (default 10, max 40) | Search news |
+
+### SMZDM
+
+| Command | Args | Description |
+|---------|------|-------------|
+| `smzdm search` | `--keyword <str>`, `--limit N` (default 20) | Search deals |
 
 ### LinkedIn
 
@@ -609,7 +613,7 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 
 | Command | Args | Description |
 |---------|------|-------------|
-| `yahoo-finance quote` | `--symbol <ticker>` (如 AAPL, MSFT, TSLA) | 股票行情 |
+| `yahoo-finance quote` | `--symbol <ticker>` (e.g. AAPL, MSFT, TSLA) | Stock quote |
 
 ### Barchart
 
@@ -626,27 +630,37 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 |---------|------|-------------|
 | `grok ask` | `--text <str>` | Ask Grok |
 
-### 即梦 (Jimeng)
+### Pi
+
+| Command | Args | Description |
+|---------|------|-------------|
+| `pi ask` | `--text <str>` | Ask Pi a question and get a response |
+| `pi new` | — | Start a new conversation |
+| `pi send` | `--text <str>` | Send a message in the current conversation |
+| `pi read` | — | Read the latest response |
+| `pi history` | `--limit N` | View recent conversation history |
+
+### Jimeng
 
 | Command | Args | Description |
 |---------|------|-------------|
 | `jimeng generate` | `--prompt <str>` | Generate image |
 | `jimeng history` | `--limit N` | Generation history |
 
-### 超星 (Chaoxing)
+### Chaoxing
 
 | Command | Args | Description |
 |---------|------|-------------|
 | `chaoxing assignments` | — | Assignments |
 | `chaoxing exams` | — | Exams |
 
-### 微信 (Weixin)
+### Weixin
 
 | Command | Args | Description |
 |---------|------|-------------|
 | `weixin download` | `--url <article_url>` | Download article |
 
-### 豆包 (Doubao)
+### Doubao
 
 | Command | Args | Description |
 |---------|------|-------------|
@@ -656,7 +670,7 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `doubao read` | — | Read response |
 | `doubao ask` | `--text <str>` | Ask question |
 
-### 拼多多海外 (Coupang)
+### Coupang
 
 | Command | Args | Description |
 |---------|------|-------------|
@@ -766,7 +780,7 @@ Run `opencli-rs --help` for the full list of all 333 commands across 55+ sites.
 | `chatwise export` | — | Export |
 | `chatwise screenshot` | — | Screenshot |
 
-### 豆包 App (Doubao App)
+### Doubao App
 
 | Command | Args | Description |
 |---------|------|-------------|
